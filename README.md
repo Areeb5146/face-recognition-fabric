@@ -8,7 +8,7 @@ This React application demonstrates real-time face detection in a video using th
 1. Clone this repository:
 
    ```bash
-   git clone https://github.com/your-username/face-detection-app.git
+   git clone https://https://github.com/Areeb5146/face-recognition-fabric.git
    cd face-detection-app
 2. Install dependencies:
     ```bash
