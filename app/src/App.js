@@ -9,6 +9,7 @@ const App = () => {
   const fileInputRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
+  // Function to toggle play/pause of the video
   const togglePlayPause = () => {
     const videoElement = videoRef.current;
     if (videoElement.paused) {
@@ -21,6 +22,7 @@ const App = () => {
   };
 
   useEffect(() => {
+    // Function to load face detection models
     const loadModels = async () => {
       await Promise.all([
         faceapi.nets.tinyFaceDetector.loadFromUri("/weights"),
@@ -34,6 +36,7 @@ const App = () => {
       const videoElement = videoRef.current;
       const canvas = new fabric.Canvas(canvasRef.current);
 
+      // Function to scale the video and canvas dimensions
       const scaleVideo = (video, canvas) => {
         const width = video.clientWidth;
         const height = video.clientHeight;
@@ -44,6 +47,7 @@ const App = () => {
         canvas.setDimensions({ width, height });
       };
 
+      // Function to draw face rectangles on the canvas
       const drawFaces = (faces) => {
         const objectsToRemove = canvas.getObjects();
         canvas.remove(...objectsToRemove);
@@ -74,6 +78,7 @@ const App = () => {
         });
       };
 
+      // Function to detect faces in the video
       const detectFaces = async () => {
         const detections = await faceapi
           .detectAllFaces(videoElement, new faceapi.TinyFaceDetectorOptions())
@@ -81,10 +86,12 @@ const App = () => {
         drawFaces(detections);
       };
 
+      // Event listener for when the video metadata is loaded
       videoElement.addEventListener("loadedmetadata", () => {
         scaleVideo(videoElement, canvas);
       });
 
+      // Interval to repeatedly detect faces in the video
       const interval = setInterval(() => {
         detectFaces();
       }, 100);
@@ -97,6 +104,7 @@ const App = () => {
     initializeApp();
   }, []);
 
+  // Event handler for when a new video file is selected
   const handleFileChange = () => {
     const file = fileInputRef.current.files[0];
     if (file) {
